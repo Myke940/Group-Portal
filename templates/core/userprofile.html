@@ -15,7 +15,7 @@
 <p><strong>Role -~~~~~~-</strong> {{ userprofile.get_role_display }} <b> -~~~~~~-</b></p>
 <p><b>Bio:</b> {{userprofile.bio }} </p>
 <a href = "#">Show Portfolium</a>
-<a href = "#">EditProfile</a>
+<a href = "{% url 'profile-edit' %}">Edit Profile</a>
 
 </div>
 </div>
