@@ -1,3 +1,41 @@
 from django.shortcuts import render
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
+from .models import Material
 
-# Create your views here.
+# Список навчальних матеріалів
+class MaterialListView(ListView):
+    model = Material
+    template_name = "materials/material_list.html"
+    context_object_name = "material"
+
+
+# Додавання нового навчального матеріалу
+class MaterialCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Material
+    template_name = "materials/material_form.html"
+    success_url = reverse_lazy("")
+
+    def test_func(self):
+        return self.request.user.userprofile.role in ['instructor', 'admin']
+
+
+# Оновлення існуючого матеріалу
+class MaterialUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Material
+    template_name = "materials/material_form.html"
+    success_url = reverse_lazy("")
+
+    def test_func(self):
+        return self.request.user.userprofile.role in ['instructor', 'admin']
+
+
+# Видалення існуючого матеріалу 
+class MaterialDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Material
+    template_name = "materials/material_delete_confirm.html"
+    success_url = reverse_lazy("")
+
+    def test_func(self):
+        return self.request.user.userprofile.role in ['instructor', 'admin']
