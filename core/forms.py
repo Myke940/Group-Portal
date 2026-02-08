@@ -9,15 +9,16 @@ class RegisterViewForm(UserCreationForm):
     class Meta():
         model = User
         fields = ['username','password1','password2','bio','profile_picture']
-    def save(self):
-        user = super().save()
-        if not Userprofile.objects.filter(user = user).exists():
-            Userprofile.objects.create(user = user, bio = self.cleaned_data['bio'], profile_picture = self.cleaned_data['profile_picture'])
-        else:
-            profile = user.userprofile
-            profile.bio = self.cleaned_data['bio']
-            if self.cleaned_data['profile_picture']:
-                profile.profilepicture = self.cleaned_data['profile_picture']
-
+    def save(self, commit = True):
+        user = super().save(commit = True)
+        if commit:
+            if not Userprofile.objects.filter(user = user).exists():
+                Userprofile.objects.create(user = user, bio = self.cleaned_data['bio'], profile_picture = self.cleaned_data['profile_picture'])
+            else:
+                profile = user.userprofile
+                profile.bio = self.cleaned_data['bio']
+                if self.cleaned_data['profile_picture']:
+                    profile.profilepicture = self.cleaned_data['profile_picture']
+                profile.save()
         return user
                 

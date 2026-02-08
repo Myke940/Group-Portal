@@ -4,6 +4,7 @@ from .models import GroupProfile, Userprofile
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .forms import RegisterViewForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
@@ -16,7 +17,7 @@ class GroupProfileDetail(DetailView):
     
 
 
-class UserProfileView(DetailView):
+class UserProfileView(LoginRequiredMixin, DetailView):
     model = Userprofile
     template_name = 'core/userprofile.html'
     context_object_name = 'userprofile'
@@ -36,7 +37,7 @@ class RegisterView(CreateView):
     template_name = 'registration/register.html'
     success_url = reverse_lazy('user-profile')
     def form_valid(self, form):
-        new_user = form.save()
+        new_user = form.save(commit = True)
         login(self.request, new_user)
         return super().form_valid(form)
     
