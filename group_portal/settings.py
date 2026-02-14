@@ -129,3 +129,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'group-detail'
 LOGIN_REDIRECT_URL = 'user-profile'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'

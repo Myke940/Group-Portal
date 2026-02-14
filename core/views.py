@@ -2,11 +2,9 @@ from django.shortcuts import render
 from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
 from .models import GroupProfile, Userprofile
 from django.urls import reverse_lazy
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from .forms import RegisterViewForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-# Create your views here.
-
 
 class GroupProfileDetail(DetailView):
     model = GroupProfile
@@ -14,8 +12,6 @@ class GroupProfileDetail(DetailView):
     context_object_name = 'groupprofile'
     def get_object(self):
         return GroupProfile.objects.first()
-    
-
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     model = Userprofile
@@ -37,7 +33,7 @@ class RegisterView(CreateView):
     template_name = 'registration/register.html'
     success_url = reverse_lazy('user-profile')
     def form_valid(self, form):
-        new_user = form.save(commit = True)
+        new_user = form.save()              
         login(self.request, new_user)
         return super().form_valid(form)
     
