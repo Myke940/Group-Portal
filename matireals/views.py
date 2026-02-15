@@ -3,6 +3,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Material
+from .forms import MaterialForm
 
 # Список навчальних матеріалів
 class MaterialListView(ListView):
@@ -15,7 +16,8 @@ class MaterialListView(ListView):
 class MaterialCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Material
     template_name = "materials/material_form.html"
-    success_url = reverse_lazy("")
+    form_class = MaterialForm
+    success_url = reverse_lazy("materials:material-list")
 
     def test_func(self):
         return self.request.user.userprofile.role in ['instructor', 'admin']
@@ -25,7 +27,7 @@ class MaterialCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class MaterialUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Material
     template_name = "materials/material_form.html"
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("materials:material-list")
 
     def test_func(self):
         return self.request.user.userprofile.role in ['instructor', 'admin']
@@ -35,7 +37,7 @@ class MaterialUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class MaterialDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Material
     template_name = "materials/material_delete_confirm.html"
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("materials:material-list")
 
     def test_func(self):
         return self.request.user.userprofile.role in ['instructor', 'admin']

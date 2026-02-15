@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Useful learning materials</h1>
+
+    {% if materials %}
+        <ul class="list-group">
+            {% for material in materials %}
+                <li class="list-group-item">
+                    <strong>{{ material.title }}</strong><br>
+                    Description: {{ material.description }}<br>
+                    {% if material.content_type == 'file' and material.file %}
+                        <a href="{{ material.file.url }}" class="btn btn-sm btn-info" download>Download File</a>
+                    {% elif material.content_type == 'image' and material.image %}
+                        <img src="{{ material.image.url }}" alt="{{ material.title }}" style="max-width: 100%; height: auto;">
+                    {% elif material.content_type == 'url' %}
+                        <a href="{{ material.file.url }}" class="btn btn-sm btn-info" download>Open Link</a>
+                    {% endif %}
+                    <br>
+                    Created at: {{ material.created_at }} by {{ material.creator.username }}<br>
+                    {% if user.is_authenticated and user.userprofile.role in 'admin,instructor' %}
+                        <a href="{% url 'materials:material-update' material.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'materials:material-delete' material.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no materials.</p>
+    {% endif %}
+
+    {% if user.is_authenticated and user.profile.role in 'admin,instructor' %}
+        <a href="{% url 'materials:material-create' %}" class="btn btn-primary mt-3">Add new learning material</a>
+    {% endif %}
+{% endblock %}
