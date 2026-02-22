@@ -22,7 +22,7 @@
         </a>
         <a class="nav-link" href="#">Votes</a>
         <a class="nav-link" href="#">Announcements</a>
-        <a class="nav-link" href="#">Materials</a>
+        <a class="nav-link" href="{% url 'materials:material-list' %}">Materials</a>
         <a class="nav-link disabled" aria-disabled="true">Members</a>
         {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'user-profile' %}">View Profile</a>
