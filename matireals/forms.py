@@ -4,9 +4,8 @@ from .models import Material
 class MaterialForm(forms.ModelForm):
     class Meta:
         model = Material
-        fields = ["title", "description", "content_type", "file", "image", "url"]
+        fields = ["title", "description", "file", "image", "url"]
         widgets = {
-            "content_type": forms.Select(attrs={'class': 'form-control'}),
             "title": forms.TextInput(attrs={'class': 'form-control'}),
             "description": forms.Textarea(attrs={'class': 'form-control'}),
             "file": forms.FileInput(attrs={'class': 'form-control'}),

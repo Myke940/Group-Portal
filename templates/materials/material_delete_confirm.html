@@ -1,11 +1,29 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <h1>Delete learning material</h1>
-    <p>Are you sure you want to delete "{{ object.title }}"?</p>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'materials:material-list' %}">Back to list of materials</a>
-    </form>
+<div class="container mt-5" style="max-width: 600px;">
+
+    <div class="card border-danger shadow-sm">
+        <div class="card-body text-center">
+
+            <h3 class="card-title text-danger fw-bold mb-3">Delete learning material</h3>
+
+            <p class="mb-4 fs-5">
+                Are you sure you want to delete
+                <strong class="text-dark">"{{ object.title }}"</strong>?
+            </p>
+
+            <div class="alert alert-warning small">
+                This action cannot be undone.
+            </div>
+
+            <form method="POST" class="d-flex justify-content-center gap-3 mt-4">
+                {% csrf_token %}
+                <a href="{% url 'materials:material-list' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                <button type="submit" class="btn btn-danger px-4">Yes, delete</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
 {% endblock %}

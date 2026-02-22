@@ -9,7 +9,7 @@ from .forms import MaterialForm
 class MaterialListView(ListView):
     model = Material
     template_name = "materials/material_list.html"
-    context_object_name = "material"
+    context_object_name = "materials"
 
 
 # Додавання нового навчального матеріалу
@@ -19,6 +19,10 @@ class MaterialCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = MaterialForm
     success_url = reverse_lazy("materials:material-list")
 
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
     def test_func(self):
         return self.request.user.userprofile.role in ['instructor', 'admin']
 
@@ -27,6 +31,7 @@ class MaterialCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class MaterialUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Material
     template_name = "materials/material_form.html"
+    form_class = MaterialForm
     success_url = reverse_lazy("materials:material-list")
 
     def test_func(self):

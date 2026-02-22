@@ -1,35 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Useful learning materials</h1>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="fw-bold">Useful learning materials</h1>
+            {% if user.is_authenticated and user.userprofile.role in 'admin,instructor' %}
+                <a href="{% url 'materials:material-create' %}" class="btn btn-primary">Add new learning material</a>
+            {% endif %}
+        </div>
+        
+        {% if materials %}
+            <div class="row g-4">
+                {% for material in materials %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm">
 
-    {% if materials %}
-        <ul class="list-group">
-            {% for material in materials %}
-                <li class="list-group-item">
-                    <strong>{{ material.title }}</strong><br>
-                    Description: {{ material.description }}<br>
-                    {% if material.content_type == 'file' and material.file %}
-                        <a href="{{ material.file.url }}" class="btn btn-sm btn-info" download>Download File</a>
-                    {% elif material.content_type == 'image' and material.image %}
-                        <img src="{{ material.image.url }}" alt="{{ material.title }}" style="max-width: 100%; height: auto;">
-                    {% elif material.content_type == 'url' %}
-                        <a href="{{ material.file.url }}" class="btn btn-sm btn-info" download>Open Link</a>
-                    {% endif %}
-                    <br>
-                    Created at: {{ material.created_at }} by {{ material.creator.username }}<br>
-                    {% if user.is_authenticated and user.userprofile.role in 'admin,instructor' %}
-                        <a href="{% url 'materials:material-update' material.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="{% url 'materials:material-delete' material.pk %}" class="btn btn-sm btn-danger">Delete</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>There are no materials.</p>
-    {% endif %}
+                            {% if material.image %}
+                                <img src="{{ material.image.url }}"
+                                    class="card-img-top" 
+                                    alt="{{ material.title }}" 
+                                    style="height: 200px; object-fit: cover;">
+                            {% endif %}
 
-    {% if user.is_authenticated and user.profile.role in 'admin,instructor' %}
-        <a href="{% url 'materials:material-create' %}" class="btn btn-primary mt-3">Add new learning material</a>
-    {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-semibold">{{ material.title }}</h5>
+                                <p class="card-text text-muted">{{ material.description|truncatechars:120 }}</p>
+                                <div class="mt-auto">
+                                    {% if material.file %}
+                                        <a href="{{ material.file.url }}" class="btn btn-sm btn-outline-primary w-100 mb-2" download>Download file</a>
+                                    {% endif %}
+                                    {% if material.url %}
+                                        <a href="{{ material.url }}" class="btn btn-sm btn-outline-info w-100 mb-2" target="_blank">Open link</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer small text-muted">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>{{ material.creator.username }}</span>
+                                    <span>{{ material.created_at|date:"d.m.Y" }}</span>
+                                </div>
+
+                                {% if user.is_authenticated and user.userprofile.role in 'admin,instructor' %}
+                                    <div class="mt-2 d-flex gap-2">
+                                        <a href="{% url 'materials:material-update' material.pk %}"class="btn btn-sm btn-warning w-50">Edit</a>
+                                        <a href="{% url 'materials:material-delete' material.pk %}"class="btn btn-sm btn-danger w-50">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                There are no learning materials yet.
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
