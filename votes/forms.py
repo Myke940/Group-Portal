@@ -15,10 +15,10 @@ class VoteForm(forms.Form):
 VoteOptionFormSet = inlineformset_factory(
     Vote,                 
     VoteOption,             
-    fields=['text'],
+    fields=['option_text'],
     extra=3,               
     can_delete=False,
-    widgets={'text': forms.TextInput(attrs={'class': 'form-control'})},
+    widgets={'option_text': forms.TextInput(attrs={'class': 'form-control'})},
 )
 
 class VoteOptionFormSet(VoteOptionFormSet):
@@ -26,7 +26,7 @@ class VoteOptionFormSet(VoteOptionFormSet):
     def clean(self):
         super().clean()
         if self.is_valid():
-            # створюємо список форм, у яких поле text заповнене (не порожнє)
-            filled_forms = [form for form in self.forms if form.cleaned_data.get('text')]
+            # створюємо список форм, у яких поле option_text заповнене (не порожнє)
+            filled_forms = [form for form in self.forms if form.cleaned_data.get('option_text')]
             if len(filled_forms) < 2:
                 raise forms.ValidationError('At least two answer options are required.')

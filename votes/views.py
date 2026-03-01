@@ -76,18 +76,18 @@ class VoteCastView(LoginRequiredMixin, View):
         )
         
         if created:
-            # Новий голос: збільшуємо vote_count для вибраного варіанту
-            option.vote_count += 1
+            # Новий голос
+            option.option_count += 1
             option.save()
         else:
-            # Переголосування: зменшуємо vote_count попереднього варіанту
             if vote_cast.option != option:
-                vote_cast.option.vote_count -= 1
-                vote_cast.option.save()
-                # Збільшуємо vote_count для нового варіанту
-                option.vote_count += 1
+                prev_option = vote_cast.option
+                prev_option.option_count = max(prev_option.option_count - 1, 0)  # Захист від <0
+                prev_option.save()
+                
+                option.option_count += 1
                 option.save()
-                # Оновлюємо вибір
+                
                 vote_cast.option = option
                 vote_cast.save()
         
