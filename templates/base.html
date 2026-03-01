@@ -20,7 +20,7 @@
         <a class="nav-link active" aria-current="page" href="#">Forum</a>
         <a class="nav-link" href="#">Group
         </a>
-        <a class="nav-link" href="#">Votes</a>
+        <a class="nav-link" href="{% url 'voting:vote_list' %}">Votes</a>
         <a class="nav-link" href="#">Announcements</a>
         <a class="nav-link" href="{% url 'materials:material-list' %}">Materials</a>
         <a class="nav-link disabled" aria-disabled="true">Members</a>
