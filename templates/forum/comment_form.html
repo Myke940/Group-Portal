@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Kommentar schreiben{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h2 class="mb-3">Comment</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="btn btn-primary mt-2">Send</button>
+    </form>
+</div>
+{% endblock %}
