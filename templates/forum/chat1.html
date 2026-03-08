@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<style>
+.chat-input {
+    position: fixed;
+    bottom: 20px;
+    left: 2%;
+    width: 80%;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ccc;
+}
+
+.send-btn{
+    position: fixed;
+    bottom: 20px;
+    left: 85%;
+    width: 120px;
+    padding: 10px;
+}
+
+.card-y{
+    position: fixed;
+    height: 60px;
+    bottom: 15px;
+    width : 97%
+
+}
+
+.AtTheEnd{
+    height: 77vh;        
+    overflow-y: auto;    
+    padding: 10px;
+
+
+
+
+}
+
+</style>
+
+
+
+
+
+
+
+<div class = 'AtTheEnd'>
+{% for message in messages%}
+    <p>{{message.text}}</p>
+    
+
+{% endfor %}
+</div>
+
+
+
+
+
+    <form method = 'post'>
+        {% csrf_token %}
+<div class = 'card card-y' >
+    <div class = 'card-body'>
+
+        <input type = 'text'  class = 'chat-input' name = 'text' placeholder = 'Write'>
+        <button type = 'submit' class = 'btn btn-primary w-100s send-btn' >->></button>
+    </div>
+</div>
+    </form>
+
+
+
+
+
+{% endblock %}

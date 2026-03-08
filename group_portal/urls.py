@@ -25,4 +25,7 @@ urlpatterns = [
     path('materials/', include('matireals.urls')),
     path('voting/', include('votes.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+   
+    path('forum/', include('forumapp.urls')),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

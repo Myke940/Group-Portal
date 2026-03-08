@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="mb-3">{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+
+        <div class="mt-4 d-flex align-items-center">
+            <strong class="me-3">Score: {{ post.score }}</strong>
+
+            <form action="{% url 'vote' post.id %}" method="post" class="me-2">
+                {% csrf_token %}
+                <button name="value" value="1" class="btn btn-success btn-sm">Dislike</button>
+            </form>
+
+            <form action="{% url 'vote' post.id %}" method="post">
+                {% csrf_token %}
+                <button name="value" value="-1" class="btn btn-danger btn-sm">Like</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<h4 class="mb-3">Kommentare</h4>
+
+{% for c in post.comments.all %}
+<div class="card mb-2">
+    <div class="card-body">
+        <strong>{{ c.user.username }}</strong>
+        <p class="mb-0">{{ c.text }}</p>
+        <small class="text-muted">{{ c.created|date:"d.m.Y H:i" }}</small>
+    </div>
+</div>
+{% empty %}
+<p>Noch keine Kommentare.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<div class="card mt-4 shadow-sm">
+    <div class="card-body">
+        <form method="POST" action="{% url 'add_comment' post.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <textarea name="text" class="form-control" rows="3" placeholder="Kommentar schreiben..." required></textarea>
+            </div>
+            <button class="btn btn-primary">Senden</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<p class="mt-3">Bitte <a href="{% url 'login' %}">einloggen</a>, um zu kommentieren.</p>
+{% endif %}
+
+{% endblock %}

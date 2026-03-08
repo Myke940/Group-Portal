@@ -1,30 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Forum{% endblock %}</title>
 
-<header>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'group-detail' %}">Group Portal</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Forum</a>
-        <a class="nav-link" href="#">Group
-        </a>
-        <a class="nav-link" href="{% url 'voting:vote_list' %}">Votes</a>
-        <a class="nav-link" href="#">Announcements</a>
-        <a class="nav-link" href="{% url 'materials:material-list' %}">Materials</a>
-        <a class="nav-link disabled" aria-disabled="true">Members</a>
-        {% if user.is_authenticated %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">Django Forum</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="navbar-brand" href="{% url 'group-detail' %}">Group Portal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+                       href="{% url 'index' %}">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'voting:vote_list' %}">Votes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'materials:material-list' %}">Materials</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+                       href="{% url 'index' %}">
+                        Announcements
+                    </a>
+                
+                    <a class="nav-link {% if request.path == '/about/' %}active{% endif %}"
+                       href="/about/">
+                        about_us
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link "
+                       href="{% url 'chat1' %}">
+                        Chat
+                    </a>
+                </li>
+                <li class="nav-item">
+                  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'post_create' %}active{% endif %}"
+                       href="{% url 'post_create' %}">
+                        Create Post
+                    </a>
+                </li>
+                
+
+
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'user-profile' %}">View Profile</a>
         <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
@@ -33,27 +76,36 @@
         {% else %}
             <a class="nav-link" href="{% url 'login' %}">Log in</a>
             <a class="nav-link" href="{% url 'register-profile' %}">Sign up</a>
-        {% endif %}
-      </div>
+        {% endif %} 
+
+
+
+                <!-- {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">Welcome, {{ user.username }}</span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light btn-sm me-2" href="{% url 'login' %}">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %} -->
+            </ul>
+        </div>
     </div>
-  </div>
-</nav>    
+</nav>
 
-</header>
-<main>
-    <div class="container-fluid mt-4">
-    {% block content %}
-    
-    {% endblock %}
-    </div>  
-</main>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
 
-<footer>
-
-
-
-
-</footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
