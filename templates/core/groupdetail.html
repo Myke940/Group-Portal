@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h1>Group {{ groupprofile.name }} Details</h1>
+{% if groupprofile.logo %}
+    <img src = "{{ groupprofile.logo.url }}" alt="Group Logo" width="200" height="200">
+
+{% endif %}
+
+<p><strong>Description:</strong> {{ groupprofile.description }}</p>
+<p><strong>Members:</strong> {{ groupprofile.members.count }}</p>
+<p><strong>Created At:</strong> {{ groupprofile.created_at }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
