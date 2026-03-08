@@ -17,21 +17,21 @@ from django.contrib.auth.views import LogoutView, LoginView
 
 class PostListView(ListView):
     model = Post
-    template_name = "vote.html"
+    template_name = "forum/vote.html"
     context_object_name = "posts"
     ordering = ["-created"]
 
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = "post_detail.html"
+    template_name = "forum/post_detail.html"
     context_object_name = "post"
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ["text"]
-    template_name = "comment_form.html"
+    template_name = "forum/comment_form.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -60,7 +60,7 @@ class VoteView(LoginRequiredMixin, View):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ["title", "content"]
-    template_name = "post_create.html"
+    template_name = "forum/post_create.html"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -72,13 +72,13 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class RegisterView(CreateView):
     form_class = UserCreationForm
-    template_name = "register.html"
+    template_name = "forum/register.html"
     success_url = reverse_lazy("login")
 
 class ChatView(FormMixin, ListView):
     model = Message
     form_class = MessageForm
-    template_name = "chat1.html"
+    template_name = "forum/chat1.html"
     context_object_name = "messages"
     success_url = reverse_lazy("chat1")
 
@@ -92,14 +92,14 @@ class ChatView(FormMixin, ListView):
         return redirect("chat1")
 
 class LogoutView(LogoutView):
-    template_name = "logout.html"
+    template_name = "forum/logout.html"
     success_url = reverse_lazy("index")
     def get_success_url(self):
         return self.success_url
 
 
 class LoginView(LoginView):
-    template_name = "login.html"
+    template_name = "forum/login.html"
     success_url = reverse_lazy("index")
     def get_success_url(self):
         return self.success_url

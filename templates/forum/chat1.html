@@ -25,7 +25,8 @@
     position: fixed;
     height: 60px;
     bottom: 15px;
-    width : 97%
+    width : 91%;
+    left : 1%;
 
 }
 
@@ -39,6 +40,18 @@
 
 }
 
+
+.Name{
+    font-weight: bold;
+    color: #007bff;
+
+}
+
+.Probyl{
+    left : 85%;
+
+}
+
 </style>
 
 
@@ -49,8 +62,13 @@
 
 <div class = 'AtTheEnd'>
 {% for message in messages%}
-    <p>{{message.text}}</p>
-    
+
+    <div class = 'card mb-2'>
+        <div class = 'card-body'>
+    <p class="Name">{{ message.username }}:</p>
+    <p > {{ message.text }}</p>
+        </div>
+    </div>
 
 {% endfor %}
 </div>
@@ -58,7 +76,7 @@
 
 
 
-
+{% if user.is_authenticated %}
     <form method = 'post'>
         {% csrf_token %}
 <div class = 'card card-y' >
@@ -70,7 +88,19 @@
 </div>
     </form>
 
+{% else %}
+       <form method = 'get' action="{% url 'login' %}">
+        {% csrf_token %}
+<div class = 'card card-y' >
+    <div class = 'card-body'>
 
+        <input type = 'text'  class = 'chat-input' name = 'text' placeholder = 'Login there to write'>
+        <button type = 'submit' class = 'btn btn-primary w-100s send-btn' >Log in ->></button>
+    </div>
+</div>
+    </form>
+
+{% endif %}
 
 
 

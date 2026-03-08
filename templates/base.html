@@ -12,8 +12,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'index' %}">Django Forum</a>
-
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,12 +22,7 @@
                 <li class="nav-item">
                     <a class="navbar-brand" href="{% url 'group-detail' %}">Group Portal</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
-                       href="{% url 'index' %}">
-                        Home
-                    </a>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'voting:vote_list' %}">Votes</a>
                 </li>
@@ -40,12 +34,8 @@
                        href="{% url 'index' %}">
                         Announcements
                     </a>
-                
-                    <a class="nav-link {% if request.path == '/about/' %}active{% endif %}"
-                       href="/about/">
-                        about_us
-                    </a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link "
                        href="{% url 'chat1' %}">
@@ -61,7 +51,12 @@
                         Create Post
                     </a>
                 </li>
-                
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/about/' %}active{% endif %}"
+                       href="/about/">
+                        about_us
+                    </a>
+                </li>
 
 
             </ul>
@@ -71,7 +66,7 @@
         <a class="nav-link" href="{% url 'user-profile' %}">View Profile</a>
         <form method="post" action="{% url 'logout' %}">
           {% csrf_token %}
-          <button type="submit">Log out</button>
+          <button class="nav-link" type="submit">Log out</button>
         </form>
         {% else %}
             <a class="nav-link" href="{% url 'login' %}">Log in</a>
@@ -80,23 +75,6 @@
 
 
 
-                <!-- {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <span class="navbar-text me-3">Welcome, {{ user.username }}</span>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light btn-sm me-2" href="{% url 'login' %}">Login</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Register</a>
-                    </li>
-                {% endif %} -->
             </ul>
         </div>
     </div>
