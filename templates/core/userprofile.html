@@ -1,35 +1,92 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
 
+            <div class="card profile-card shadow-lg border-0 overflow-hidden">
+                
+                <div class="card-header bg-gradient-primary text-white text-center py-4 border-0">
+                    <h3 class="mb-0 fw-bold">
+                        {{ userprofile.user.username }}
+                    </h3>
+                    <small class="text-white-75">
+                        {{ userprofile.get_role_display }}
+                    </small>
+                </div>
 
-<h1>User Profile: {{ userprofile.user.username }}</h1>
-<div class = 'card' style = 'max-width: 650px;'>
-    <div class = 'card-body'>
-{% if userprofile.profile_picture %}
-    <img src="{{ userprofile.profile_picture.url }}" alt="Profile Picture" width="200" height="200" class = 'card-img-top img-fluid rounded-circle'>
-{% endif %}
+                <div class="text-center mt-n5 position-relative">
+                    {% if userprofile.profile_picture %}
+                        <img 
+                            src="{{ userprofile.profile_picture.url }}" 
+                            alt="{{ userprofile.user.username }}" 
+                            class="rounded-circle border border-4 border-white shadow-lg"
+                            style="width: 140px; height: 140px; object-fit: cover;"
+                        >
+                    {% else %}
+                        <img 
+                            src="https://ui-avatars.com/api/?name={{ userprofile.user.username }}&background=random&size=140"
+                            alt="Default avatar"
+                            class="rounded-circle border border-4 border-white shadow-lg"
+                            style="width: 140px; height: 140px; object-fit: cover;"
+                        >
+                    {% endif %}
+                </div>
+
+                <div class="card-body pt-5 text-center">
+                    
+                    {% if userprofile.bio %}
+                    <div class="bio mb-4 px-3">
+                        <p class="text-muted lead fst-italic">
+                            "{{ userprofile.bio|linebreaksbr }}"
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                        <a href="#" class="btn btn-outline-primary btn-lg px-4">
+                            <i class="bi bi-briefcase me-2"></i>Show Portfolio
+                        </a>
+                        
+                        <a href="{% url 'profile-edit' %}" class="btn btn-primary btn-lg px-4">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="card-footer bg-light text-center border-0 py-3">
+                    <small class="text-muted">
+                        Member since {{ userprofile.user.date_joined|date:"F Y" }}
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-<div class = 'card-footer'>
-<p><strong>Role -~~~~~~-</strong> {{ userprofile.get_role_display }} <b> -~~~~~~-</b></p>
-<p><b>Bio:</b> {{userprofile.bio }} </p>
-<a href = "#">Show Portfolium</a>
-<a href = "{% url 'profile-edit' %}">Edit Profile</a>
-
-</div>
 </div>
 
+<style>
+    .profile-card {
+        border-radius: 1.25rem;
+        transition: all 0.3s ease;
+    }
+    
+    .profile-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+    }
 
-
-
-
-
-
-
-
-
-
-
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #212529 0%, #262c31 100%);
+    }
+    
+    .bio p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+</style>
 
 {% endblock %}
