@@ -3,8 +3,8 @@ from .models import Message, Forum
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormMixin
 from .forms import MessageForm
-from django.views.generic import ListView, DetailView, CreateView, View
-from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, View, TemplateView
+from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -103,3 +103,9 @@ class LoginView(LoginView):
     success_url = reverse_lazy("index")
     def get_success_url(self):
         return self.success_url
+    
+
+
+
+class Aboutus(TemplateView):
+    template_name = "forum/about_us.html"

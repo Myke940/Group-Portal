@@ -23,9 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('materials/', include('matireals.urls')),
-    path('voting/', include('votes.urls')),
+    path('core/', include('core.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-   
     path('forum/', include('forumapp.urls')),
+    path('votes/', include('votes.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

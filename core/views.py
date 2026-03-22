@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
+from django.views.generic import DetailView, UpdateView, DeleteView, CreateView, View
 from .models import GroupProfile, Userprofile
 from django.urls import reverse_lazy
 from django.contrib.auth import login, get_user_model
@@ -37,3 +37,10 @@ class RegisterView(CreateView):
         login(self.request, new_user)
         return super().form_valid(form)
     
+
+
+class Aboutus(View):
+    success_url = reverse_lazy("about_us")
+    template_name = "forum/about_us.html"
+    def get(self, request):
+        return render(request, "forum/about_us.html")
