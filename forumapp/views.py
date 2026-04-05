@@ -10,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from .models import Post, Comment, Vote
 from django.contrib.auth.views import LogoutView, LoginView
+from django.conf import settings
 # Create your views here.
 
 
@@ -109,3 +110,7 @@ class LoginView(LoginView):
 
 class Aboutus(TemplateView):
     template_name = "forum/about_us.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Privacy_pic'] = settings.STATIC_URL + 'pictures/ABOUTus/privacy-policy.png'
+        return context

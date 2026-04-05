@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GroupProfileDetail, UserProfileView, UserEditor, RegisterView, Aboutus
+from .views import GroupProfileDetail, UserProfileView, UserEditor, RegisterView
 urlpatterns = [
 
 path('', GroupProfileDetail.as_view(), name='group-detail'),

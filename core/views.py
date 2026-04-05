@@ -37,10 +37,3 @@ class RegisterView(CreateView):
         login(self.request, new_user)
         return super().form_valid(form)
     
-
-
-class Aboutus(View):
-    success_url = reverse_lazy("about_us")
-    template_name = "forum/about_us.html"
-    def get(self, request):
-        return render(request, "forum/about_us.html")
