@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-5">
+
+    <div class="mb-4 text-center">
+        <h1 class="fw-bold">Voting</h1>
+        <p class="text-muted">
+            Participate in votes that influence group decisions.
+            You can change your choice at any time.
+        </p>
+    </div>
+
+    {% if votes %}
+        <div class="card shadow-sm border-0 mb-4">
+            <ul class="list-group list-group-flush">
+                {% for vote in votes %}
+                    <li class="list-group-item list-group-item-action py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="{% url 'voting:vote_detail' vote.pk %}"
+                                   class="fw-semibold text-decoration-none text-dark">
+                                    {{ vote.title }}
+                                </a>
+                                <div class="small text-muted mt-1">
+                                    Created at: {{ vote.created_time|date:"d.m.Y H:i" }}
+                                </div>
+                            </div>
+
+                            <span class="badge bg-primary-subtle text-primary rounded-pill">
+                                Review
+                            </span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center shadow-sm">
+            There are currently no active votes.
+        </div>
+    {% endif %}
+
+    {% if user.is_authenticated and user.userprofile.role in 'admin,instructor' %}
+        <div class="text-end">
+            <a href="{% url 'voting:vote_create' %}" class="btn btn-primary btn-lg shadow-sm">
+                Create new voting
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

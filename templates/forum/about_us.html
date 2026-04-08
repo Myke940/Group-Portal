@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}About Us{% endblock %}
+
+
+
+
+
+{% block content %}
+
+<style>
+.metaquest {
+    position: fixed;
+    padding: 20px;
+    background-color: darkgoldenrod;
+    border-radius: 12px;
+    width: 30%;
+}
+.metaquest1 {
+    position: fixed;
+    padding: 20px;
+    background-color: rgb(11, 115, 184);
+    border-radius: 12px;
+    width: 30%;
+    right: 23%;
+}
+
+.picture{
+
+    position: fixed;
+    right: 25%;
+
+}
+
+
+
+</style>
+
+    <h1>About Us</h1>
+    <h2>Welcome to our Group-Portal</h2>
+    
+    <div class = "metaquest" >
+
+
+    <p> TERMS OF SERVICE:</p>
+    <p> fdila bla bla</p>
+    </div>
+
+
+    <div class = "metaquest1" >
+        <div class = "picture">
+            <img src="{{ Privacy_pic }}" width="100">
+        </div>
+    <p> PRIVACY POLICY:
+    </p>
+    <p> fdila bla bla</p>
+
+    </p>
+    </div>
+    
+
+{% endblock %}

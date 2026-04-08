@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
+
+            <div class="card shadow-sm border">
+                <div class="card-header bg-white border-bottom">
+                    <h4 class="mb-0 fw-semibold">Edit Profile</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="row g-4">
+                            {% if form.profile_picture %}
+                                <div class="mb-4">
+                                    <label class="form-label fw-medium">Avatar</label>
+                                    <div class="d-flex align-items-center gap-3 mb-3">
+                                        {% if userprofile.profile_picture %}
+                                            <img src="{{ userprofile.profile_picture.url }}"
+                                                alt="Поточне фото"
+                                                class="rounded-circle border border-secondary shadow-sm"
+                                                width="90" height="90" style="object-fit: cover;">
+                                            <small class="text-muted">
+                                                {{ userprofile.profile_picture.name }}
+                                            </small>
+                                        {% else %}
+                                            <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center text-muted"
+                                                style="width:90px; height:90px; font-size: 2.5rem;">
+                                                <i class="bi bi-person"></i>
+                                            </div>
+                                            <small class="text-muted">No avatar</small>
+                                        {% endif %}
+                                    </div>
+
+                                    <div>
+                                        <button type="button" 
+                                                class="btn btn-outline-secondary px-4 py-2"
+                                                onclick="document.getElementById('id_{{ form.profile_picture.name }}').click();">
+                                            <i class="bi bi-upload me-2"></i>Choose New Avatar
+                                        </button>
+                                        {{ form.profile_picture }}
+
+                                        <style>
+                                            #id_profile_picture { 
+                                                display: none;
+                                            }
+                                        </style>
+
+                                        <small id="file-name-display" class="text-muted ms-3 d-none"></small>
+
+                                        {% if form.profile_picture.errors %}
+                                            <div class="invalid-feedback d-block mt-2">
+                                                {{ form.profile_picture.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="form-text text-muted mt-2">
+                                        jpg, png, webp • up to 2 Mb • recommended 400×400 or more
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% for field in form %}
+                                {% if field.name != 'profile_picture' %}
+                                <div class="col-12">
+                                    <label class="form-label fw-medium">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                                    </label>
+
+                                    {{ field }}
+
+                                    {% if field.help_text %}
+                                        <div class="form-text text-muted">
+                                            {{ field.help_text }}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if field.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex gap-3 mt-5 pt-3 border-top">
+                            <button type="submit" class="btn btn-primary px-5">
+                                Save Changes
+                            </button>
+
+                            <a href="{% url 'user-profile' %}" class="btn btn-outline-secondary px-5">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_{{ form.profile_picture.name }}');
+        const display = document.getElementById('file-name-display');
+
+        if (!fileInput || !display) return;
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                display.textContent = fileName.length > 30 
+                    ? fileName.substring(0, 27) + '...' 
+                    : fileName;
+                display.classList.remove('d-none');
+            } else {
+                display.classList.add('d-none');
+                display.textContent = '';
+            }
+        });
+    });
+</script>
+{% endblock %}
