@@ -50,7 +50,7 @@ class VoteCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         context = self.get_context_data()
         formset = context['formset']
         if formset.is_valid():
-            form.instance.created_by = self.request.user
+            form.instance.author = self.request.user
             self.object = form.save()
             formset.instance = self.object
             formset.save()

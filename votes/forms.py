@@ -3,7 +3,7 @@ from django.forms import inlineformset_factory
 from .models import Vote, VoteOption
 
 # Форма для створення нових голосувань
-class VoteForm(forms.Form):
+class VoteForm(forms.ModelForm):
     class Meta:
         model = Vote
         fields = ['title', 'description']
